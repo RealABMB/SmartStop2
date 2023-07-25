@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>Fuel Map</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+	<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+	<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		.mapbox-directions-origin{
+				z-index: 3;
+			}
+	
+			#mapbox-directions-destination-input{
+				z-index: 1;
+			}	
+	
+			body {
+				margin: 0;
+			}
+	
+			#map {
+				height: 100%;
+				width: 50%;
+				position: absolute; 
+				top: 0; 
+				bottom: 0;
+			} 
+	
+	
+			.mapboxgl-ctrl-geocoder--icon {
+				height: 0;
+				width: 0;
+			}
+	
+			.mapboxgl-ctrl-geocoder--input{
+				border-radius: 20;
+			}
+	
+		.mapbox-directions-origin{
+		  visibility: hidden;
+		}
+	
+		.directions-icon{
+		  visibility: hidden;
+		}
+	
+		.mapbox-directions-component-keyline{
+		  box-shadow: 0 0 0 0 rgba(0,0,0,0)
+		}
+	
+		.mapbox-form-label{
+		  visibility: hidden;
+		}
+	
+		.mapboxgl-ctrl-geocoder{
+		  border-radius: 0;
+		}
+	
+		#info-container{
+			height: 75%;
+			width: 50%;
+			float: right;
+			text-align: center;
+		}
+	
+		table {
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 90%;
+		margin: 0 auto;
+		}
+	
+		td, th {
+		border: 1px solid #dddddd;
+		text-align: left;
+		padding: 8px;
+		}
+	
+		tr:nth-child(even) {
+		background-color: #dddddd;
+		}
+	
+		p{
+			font-size: 30px;
+			margin-top: 10%;
+		}
+
+		#km-button{
+			margin-top: 5%;
+			height: 100px;
+			width: 200px;
+			color: black;
+			font-size: 20px;
+			background-color:rgb(0, 191, 255);
+			margin-bottom: 3%
+		}
+
+		#km-button:hover{
+			background-color: rgb(7, 165, 218);
+		}
+
+		#km-button:active {
+			background-color: rgb(5, 143, 189);
+		}
+	
+			</style>
+</head>
+
+	
+	<body>
+	<div id='map'></div>
+	  <div id="info-container">
+		<button id="km-button" onclick="checkKm()">Check km available</button>
+		<h1>Info Will Go Below:</h1>
+		<h2>Note that prices may not be cent for cent accurate as they are not updated real time.</h2>
+		<h2>Despite inaccuracy in prices, the order represented in the table should indicate the cheapest options.</h2>
+		<table id="gas-table">
+			<tr>
+				<th>Station Name</th>
+				<th>Station Address</th>
+				<th>Regular Price</th>
+				<th>Distance From Route</th>
+			  </tr>
+
+			  <tr>
+				<td id="row-1-name"></td>
+				<td id="row-1-address"></td>
+				<td id="row-1-price"></td>
+				<td id="row-1-distance"></td>
+			  </tr>
+
+			  <tr>
+				<td id="row-2-name"></td>
+				<td id="row-2-address"></td>
+				<td id="row-2-price"></td>
+				<td id="row-2-distance"></td>
+			  </tr>
+
+			  <tr>
+				<td id="row-3-name"></td>
+				<td id="row-3-address"></td>
+				<td id="row-3-price"></td>
+				<td id="row-3-distance"></td>
+			  </tr>
+
+			  <tr>
+				<td id="row-4-name"></td>
+				<td id="row-4-address"></td>
+				<td id="row-4-price"></td>
+				<td id="row-4-distance"></td>
+			  </tr>
+
+			  <tr>
+				<td id="row-5-name"></td>
+				<td id="row-5-address"></td>
+				<td id="row-5-price"></td>
+				<td id="row-5-distance"></td>
+			  </tr>
+
+		</table>
+		<p id="verdict-statement"></p>
+	</div>
+</body>
+<script src="{{ url_for('static', filename='script.js') }}"></script>	
+</html>
+

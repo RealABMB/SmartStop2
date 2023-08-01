@@ -3,8 +3,9 @@ def predict_stock():
     current_day = datetime.now() 
     dt = current_day + timedelta(1)
     dayofweek = dt.weekday()
+    print(f'day of week is {dayofweek}')
 
-    if dayofweek == 0 or dayofweek == 1:
+    if dayofweek == 1 or dayofweek == 2:
         global difference
         difference = 0
     else:

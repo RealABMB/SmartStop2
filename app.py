@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify
 app = Flask(__name__)
 import sys
-import json
 gas_station_list = []
 km_availiable = 2
 global first_time 

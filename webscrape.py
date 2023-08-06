@@ -62,8 +62,7 @@ def gas_buddy_search():
 
         except Exception as err:
             print(err)
-            print('station price not found', x)
-            pass 
+            print('station price not found', x) 
         x += 1
     get_output()
     print(index_values, station_prices)

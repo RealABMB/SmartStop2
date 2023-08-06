@@ -9,7 +9,13 @@ jsonList = []
 gasStations = []
 let marker_list = []
 var buttonClicked = false
+var instructionsVariable
 
+if (window.innerHeight < 500 || window.innerWidth < 1000){
+  instructionsVariable = false
+}else{
+  instructionsVariable = true
+}
 gas_accessToken = "KYrBJ6gHSpRdmh8jAiJOhqS1dDCMo5H4 " 
 
 mapboxgl.accessToken =
@@ -19,14 +25,38 @@ navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
   enableHighAccuracy: true
 })
 
-function checkKm(){
-  $.ajax({
-    type: "POST",
-    url: "/km_check",
-    data: ('hello')
-  })
-  buttonClicked = true
-}
+
+let camera_button = document.getElementById("km-button");
+let video = document.querySelector("#video");
+let canvas = document.querySelector("#canvas");
+let kmImage = document.getElementById("km-image")
+  
+camera_button.addEventListener('click', async function() {
+  try{
+    let stream = await navigator.mediaDevices.getUserMedia({ video: {facingMode: "environment"}, audio: false });
+    video.srcObject = stream;
+    setTimeout(takePicture, 1000)}catch{
+      alert('Your camera has not been activated')
+      buttonClicked = false
+    }
+});
+  
+function takePicture() {
+      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+      let image_data_url = canvas.toDataURL('image/jpeg');
+      kmImage.src = image_data_url
+      console.log(kmImage)
+      // data url of the image
+      console.log(image_data_url);
+      $.ajax({
+        type: "POST",
+        url: "/km_check",
+        data: {"url": image_data_url}
+      })
+      buttonClicked = true
+};
+  
+
 
 
 function errorLocation() {
@@ -50,7 +80,8 @@ function setupMap(center) {
     profile: 'mapbox/driving',
     unit: 'metric',
     controls: {
-        profileSwitcher: false
+        profileSwitcher: false,
+        instructions: instructionsVariable
     }
 
   })
@@ -118,7 +149,6 @@ function getWaypoints(){
 }
 console.log(latPoints)
 console.log(lonPoints)
-myInterval = setInterval(fetchStations, 10000)
 }
 
 async function routeStations(){
@@ -202,8 +232,12 @@ function fetch_km() {
     console.log(data)
     if (data['value'] == 'True'){
       originStations()
+      myInterval = setInterval(fetchStations, 10000)
     } else if (data['value'] == 'False'){
       routeStations()
+      myInterval = setInterval(fetchStations, 10000)
+    } else{
+      alert('Please take another picture, it was not clear enough to read')
     }
   });
 }

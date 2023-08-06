@@ -6,6 +6,8 @@ km_availiable = 2
 global first_time 
 first_time = True
 from importlib import reload
+import camera
+import time
 
 @app.route("/")
 def map():
@@ -14,8 +16,19 @@ def map():
 @app.route("/km_check", methods=['POST', 'GET'])
 def km_check():
     global km_availiable
-    km_availiable = 21
+    km_availiable = -1
+    pic_link = request.form['url']
+    camera.pictureSearch(pic_link)
+    time.sleep(0.5)
+    try:    
+        km_availiable = camera.kilometers
+        print(km_availiable)
+        return redirect(request.referrer)
+    except:
+        print('no')
     return redirect(request.referrer)
+
+    
 
 @app.route("/distance_mesure", methods=['POST', 'GET'])
 def distance_mesure():
@@ -27,8 +40,9 @@ def distance_mesure():
 
 @app.route("/km_object", methods=['POST', 'GET'])
 def km_object():
-    
-    if km_availiable <= (route_km + 5):
+    if km_availiable == -1:
+        return{'value': 'Try Again'}
+    elif km_availiable <= (route_km + 5):
         return {'value': 'True'}
     else: 
         return {'value': 'False'}
@@ -142,4 +156,4 @@ def scrape():
     first_time = True
 
 if __name__ == '__main__':
-    app.run(debug=True, ssl_context='adhoc', host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')

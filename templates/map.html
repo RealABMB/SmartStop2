@@ -109,6 +109,101 @@
 		#km-button:active {
 			background-color: rgb(5, 143, 189);
 		}
+
+		#video{
+			width: 50%;
+			height: 50%;
+		}
+
+		#canvas{
+			width: 50%;
+			height: 50%;
+		}
+
+		#km-image{
+			width: 50%;
+			height: 50%;
+		}
+
+	.popup-close{
+    cursor : pointer;
+    border: none;
+    margin-left: 88%;
+    outline: none;
+    background: none;
+    font-size: 2rem;
+    color:#3F37C9;
+    margin-bottom: 0
+}
+
+.popup-container{
+    width: 31.719vw; 
+    height: 71.102vh;  
+    position: fixed;
+    padding-top: 2%; 
+    margin-right: 3%; 
+    top:50%; 
+    left:50%; 
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+    z-index: 1000; 
+    border-radius: 4px;
+    background-color: white;
+}
+
+
+.window-title{
+    font-size: 1.986vh;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 0;
+}
+
+.window-prompts{
+    font-size: 1.490vh;
+    font-weight: 400;
+    margin-bottom: 4%;
+    margin-left: 11.4%
+}
+
+.overlay{
+    height: 100%;
+    opacity: 0.5;
+    position: fixed;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom:0;
+    background-color:rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+    z-index: 900;
+}
+
+#message-button{
+	position: absolute;
+	margin-left: 50%;
+	margin-top: 10%;
+	background-color: blue;
+	color: white;
+	width: 12.135vw;
+    height: 5.362vh;
+}
+
+#km-input{
+	width: 12.135vw;
+	height: 5.362vh;
+	font-size: medium;
+}
+
+#km-text{
+	font-size: medium;
+	line-height: 5.362vh;
+}
+
+
+	
 	
 			</style>
 </head>
@@ -117,7 +212,7 @@
 	<body>
 	<div id='map'></div>
 	  <div id="info-container">
-		<button id="km-button" onclick="checkKm()">Check km available</button>
+		<button type='button' id="km-button">Check km available</button>
 		<h1>Info Will Go Below:</h1>
 		<h2>Note that prices may not be cent for cent accurate as they are not updated real time.</h2>
 		<h2>Despite inaccuracy in prices, the order represented in the table should indicate the cheapest options.</h2>
@@ -166,10 +261,22 @@
 
 		</table>
 		<p id="verdict-statement"></p>
-        <video id="video" width="320" height="240" autoplay hidden></video>
-        <canvas id="canvas" width="320" height="240" hidden></canvas>
-		<img id="km-image" width="320" height="240">
+        <video id="video"  autoplay hidden></video>
+        <canvas id="canvas"  hidden></canvas>
+		<img id="km-image" >
 	</div>
+
+	<div id="km-popup" class="popup-container" hidden>
+        <form id="km-form" action='#' method='POST'>
+        <button class="popup-close" type="button" onclick='closePopup()'>&times;</button>
+          <p class="window-title">Please Enter Your Remaning Tank in Km</p>
+		  <div style="display: flex; justify-content: center;  vertical-align: middle;">
+          <input name="km-number" type="number" id="km-input" required> <label id="km-text">Km</label>
+		</div><br><br>
+          <button id="message-button" type="submit">Submit</button>      
+          </form>  
+          </div>
+      <div class="overlay" id="km-overlay" hidden></div>
 </body>
 <script src="{{ url_for('static', filename='script.js') }}"></script>	
 </html>

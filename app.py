@@ -17,15 +17,16 @@ def map():
 def km_check():
     global km_availiable
     km_availiable = -1
-    pic_link = request.form['url']
-    camera.pictureSearch(pic_link)
-    time.sleep(0.5)
-    try:    
-        km_availiable = camera.kilometers
-        print(km_availiable)
-        return redirect(request.referrer)
-    except:
-        print('no')
+    value = request.form['numberValue']
+    #camera.pictureSearch(pic_link)
+    #time.sleep(0.5)
+    #try:    
+        #km_availiable = camera.kilometers
+        #print(km_availiable)
+        #return redirect(request.referrer)
+    #except:
+        #print('no')
+    km_availiable = int(value)
     return redirect(request.referrer)
 
     
@@ -156,4 +157,4 @@ def scrape():
     first_time = True
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')

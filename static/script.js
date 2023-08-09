@@ -26,22 +26,48 @@ navigator.geolocation.getCurrentPosition(successLocation, errorLocation, {
 })
 
 
-let camera_button = document.getElementById("km-button");
-let video = document.querySelector("#video");
+let km_button = document.getElementById("km-button");
+/*let video = document.querySelector("#video");
 let canvas = document.querySelector("#canvas");
-let kmImage = document.getElementById("km-image")
-  
-camera_button.addEventListener('click', async function() {
-  try{
+let kmImage = document.getElementById("km-image")*/
+
+const kmForm = document.getElementById('km-form')
+kmForm.addEventListener('submit', function(e){
+  e.preventDefault()
+  const formData = new FormData(kmForm)
+  kmGiven = formData.get('km-number')
+  alert("Data has been submited")
+  kmForm.reset() 
+  closePopup()
+
+  $.ajax({
+    type: "POST",
+    url: "/km_check",
+    data: {"numberValue": kmGiven}
+  })
+  buttonClicked = true
+})
+
+function loadPopup(){
+  document.getElementById("km-popup").hidden = false
+  document.getElementById("km-overlay").hidden = false
+}
+function closePopup(){
+  document.getElementById("km-popup").hidden = true
+  document.getElementById("km-overlay").hidden = true
+}
+km_button.addEventListener('click', async function() {
+  loadPopup()
+  /*try{
     let stream = await navigator.mediaDevices.getUserMedia({ video: {facingMode: "environment"}, audio: false });
     video.srcObject = stream;
     setTimeout(takePicture, 1000)}catch{
       alert('Your camera has not been activated')
       buttonClicked = false
-    }
+    }*/
 });
   
-function takePicture() {
+/*function takePicture() {
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
       let image_data_url = canvas.toDataURL('image/jpeg');
       kmImage.src = image_data_url
@@ -54,7 +80,7 @@ function takePicture() {
         data: {"url": image_data_url}
       })
       buttonClicked = true
-};
+};*/
   
 
 

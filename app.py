@@ -6,7 +6,7 @@ km_availiable = 2
 global first_time 
 first_time = True
 from importlib import reload
-import camera
+#import camera
 import time
 
 @app.route("/")
@@ -102,20 +102,20 @@ def prediction():
 
         if  prediction <= -0.5: 
             need_gas = False
-            verdict = (f'Gas prices will decrease by around {round(prediction)} cent(s), wait till tomorrow to fill gas')
+            verdict = (f'Gas prices will decrease by around {round(prediction)} cent(s) tomorrow, wait till tomorrow to fill gas')
 
         elif prediction >= 0.5:
-            verdict = (f'Gas prices will increase by around {round(prediction)} cent(s), fill gas anywhere along the route')
+            verdict = (f'Gas prices will increase by around {round(prediction)} cent(s) tomorrow, fill gas anywhere along the route')
             scrape()
             print_options()
 
         else:
             if (route_km * 4 + 5) <= km_availiable:
-                verdict = ('Gas prices will stay the same, it is recomended to wait till tomorrow, but can fill today.')
+                verdict = ('Gas prices will stay the same tomorrow, it is recomended to wait till tomorrow, but can fill today.')
                 scrape()
                 print_options()
             else:
-                verdict = ('Gas prices will stay the same, it is recomended to fill today.')
+                verdict = ('Gas prices will stay the same tomorrow, it is recomended to fill today.')
                 scrape()
                 print_options()
 

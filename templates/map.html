@@ -183,7 +183,6 @@
 
 #message-button{
 	position: absolute;
-	margin-left: 50%;
 	margin-top: 10%;
 	background-color: blue;
 	color: white;
@@ -273,7 +272,10 @@
 		  <div style="display: flex; justify-content: center;  vertical-align: middle;">
           <input name="km-number" type="number" id="km-input" required> <label id="km-text">Km</label>
 		</div><br><br>
-          <button id="message-button" type="submit">Submit</button>      
+		<div style="display: flex; justify-content: center;">
+			<button id="message-button" type="submit">Submit</button>      
+		</div>
+          
           </form>  
           </div>
       <div class="overlay" id="km-overlay" hidden></div>

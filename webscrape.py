@@ -41,8 +41,9 @@ def gas_buddy_search():
     x = 0
     for gas_station in gas_station_list:
         try:
-            if 'oops' in gas_station:
-                gas_station = gas_station.replace('oops', 'Mr Gas')
+            if 'Oops' in gas_station:
+                gas_station = gas_station.replace('Oops', 'Mr Gas')
+
             response = requests.get(f'https://www.google.com/search?q={gas_station} gas')
             soup = BeautifulSoup(response.content, 'html.parser')
             links = soup.find_all('a', href=True)
@@ -57,13 +58,16 @@ def gas_buddy_search():
                     price = soup.find_all("span", {'class': 'FuelTypePriceDisplay-module__price___3iizb'}, limit=1)
                     price = str(price[0].text)
                     price = price.split('¢', 1)[0]
-                    station_prices.append(price)
-                    index_values.append(x)
+                    print(price)
+                    if x not in index_values:
+                        station_prices.append(price)
+                        index_values.append(x)
 
         except Exception as err:
             print(err)
             print('station price not found', x) 
-        x += 1
+        x += 1    
+    print(index_values, station_prices)
     get_output()
     print(index_values, station_prices)
 
@@ -84,6 +88,9 @@ def get_output():
     global index_values
     index_values = sort_list(index_values, station_prices)
     station_prices.sort()
+    if float(station_prices[0]) < (float(station_prices[1]) - 3):
+        del station_prices[0]
+        del index_values[0]
     global first_option
     global second_option
     global third_option

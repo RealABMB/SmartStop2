@@ -120,7 +120,7 @@ function setupMap(center) {
       gasStations = []
       let routes = event.route
       document.getElementById('verdict-statement').innerText = 'Loading...'
-      window.setTimeout(timeMessage, 10000)
+      window.setTimeout(timeMessage, 20000)
       if (marker_list.length !== 0) {
         for (var l = marker_list.length - 1; l >= 0; l--) {
             marker_list[l].remove()

@@ -102,9 +102,11 @@ def prediction():
 
         if  prediction <= -0.5: 
             need_gas = False
+            prediction = round(prediction, 1)
             verdict = (f'Gas prices will decrease by around {round(prediction)} cent(s) tomorrow, wait till tomorrow to fill gas')
 
         elif prediction >= 0.5:
+            prediction = round(prediction, 1)
             verdict = (f'Gas prices will increase by around {round(prediction)} cent(s) tomorrow, fill gas anywhere along the route')
             scrape()
             print_options()

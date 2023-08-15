@@ -10,6 +10,7 @@ gasStations = []
 let marker_list = []
 var buttonClicked = false
 var instructionsVariable
+var inProgress = false
 
 if (window.innerHeight < 500 || window.innerWidth < 1000){
   instructionsVariable = false
@@ -116,6 +117,11 @@ function setupMap(center) {
 
   directions.on('route', async (event) => {
     if (buttonClicked == true){
+      if (inProgress == true){
+        alert('Search is already in progress. Markers placed will now be relative to the original route.')
+        directions.removeRoutes()
+      } else{
+      inProgress = true
       buttonClicked = false
       gasStations = []
       let routes = event.route
@@ -152,7 +158,7 @@ function setupMap(center) {
         getWaypoints()
       }catch (err){
         console.log(err)
-      }
+      }}
     }else{
       alert('please check the kilometers you have available by clicking the button.')
       directions.removeRoutes()
@@ -226,7 +232,7 @@ async function routeStations(){
 async function originStations(){
   jsonList = []
 
-  const res = await fetch(`https://api.tomtom.com/search/2/categorySearch/petrol-station.json?lat=${orgLat}&lon=${orgLon}&radius=2000&key=${gas_accessToken}`) 
+  const res = await fetch(`https://api.tomtom.com/search/2/categorySearch/petrol-station.json?lat=${orgLat}&lon=${orgLon}&radius=3500&key=${gas_accessToken}`) 
   response = await res.json();
   jsonList.push(response)
 
@@ -275,6 +281,7 @@ function fetchStations(){
       clearInterval(myInterval);
       setMarkers(data)
     })
+    inProgress = false
   } catch(err){
     console.log(err) 
     myInterval = setInterval(fetchStations, 3000)  
@@ -363,7 +370,7 @@ function setMarkers(data){
 }
 
 function timeMessage(){
-  if (document.getElementById('verdict-statement').innerText = 'Loading...'){
+  if (document.getElementById('verdict-statement').innerText == 'Loading...'){
     document.getElementById('verdict-statement').innerText = 'This is taking some time... Almost done'
   }
 }

@@ -5,7 +5,6 @@ gas_station_list = []
 km_availiable = 2
 global first_time 
 first_time = True
-from importlib import reload
 #import camera
 import time
 
@@ -143,7 +142,6 @@ def scrape():
     global fourth_option_gas
     global fifth_option_gas
     import webscrape
-    reload(webscrape)
     webscrape.gas_buddy_search(gas_station_list)
     first_option = webscrape.first_option
     second_option = webscrape.second_option

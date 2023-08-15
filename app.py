@@ -155,6 +155,3 @@ def scrape():
     fifth_option_gas = webscrape.fifth_option_gas
     global first_time
     first_time = True
-
-if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
